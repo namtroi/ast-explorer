@@ -1,0 +1,39 @@
+[
+  {
+    "className": "BaseService",
+    "methods": [
+      "healthCheck",
+      "getServiceId"
+    ]
+  },
+  {
+    "className": "ConsoleLogger",
+    "methods": [
+      "log",
+      "error"
+    ]
+  },
+  {
+    "className": "InventoryService",
+    "methods": [
+      "healthCheck",
+      "checkStock",
+      "updateStock"
+    ]
+  },
+  {
+    "className": "PaymentService",
+    "methods": [
+      "healthCheck",
+      "processTransaction",
+      "validateCurrency"
+    ]
+  },
+  {
+    "className": "OrderController",
+    "methods": [
+      "createOrder",
+      "getControllerVersion"
+    ]
+  }
+]

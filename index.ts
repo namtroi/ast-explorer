@@ -1,18 +1,67 @@
 // index.ts
 import { Project } from 'ts-morph';
+import * as fs from 'fs';
 
-// 1. Initialize the AST Project
-const project = new Project();
+interface ClassStructure {
+  className: string;
+  methods: string[];
+}
 
-// 2. Add the source file to memory for processing
-const sourceFile = project.addSourceFileAtPath('./source_tests/source.ts');
+function extractAstData(filePath: string): ClassStructure[] {
+  console.log(`> Reading file: ${filePath}...`);
+  const project = new Project();
+  const sourceFile = project.addSourceFileAtPath(filePath);
+  const extractedData: ClassStructure[] = [];
 
-// 3. Test: Print the file path to ensure it loaded correctly
-console.log('Successfully loaded file:', sourceFile.getFilePath());
+  const classes = sourceFile.getClasses();
 
-// Test: Get all classes in the file and print their names
-const classes = sourceFile.getClasses();
+  classes.forEach((classDeclaration) => {
+    const name = classDeclaration.getName() || 'Anonymous';
 
-classes.forEach((c) => {
-  console.log('Found class:', c.getName());
-});
+    // Get method names
+    const methods = classDeclaration.getMethods().map((method) => {
+      return method.getName();
+    });
+
+    extractedData.push({
+      className: name,
+      methods: methods,
+    });
+  });
+
+  return extractedData;
+}
+
+function generateMermaidChart(data: ClassStructure[]): string {
+  let chart = 'graph TD;\n';
+
+  data.forEach((cls) => {
+    // Node Class
+    chart += `  ${cls.className}[Class: ${cls.className}]\n`;
+
+    // Node Methods & Links
+    cls.methods.forEach((method) => {
+      const methodNodeId = `${cls.className}_${method}`;
+      chart += `  ${cls.className} --> ${methodNodeId}(Method: ${method})\n`;
+    });
+  });
+
+  return chart;
+}
+
+// --- Main Execution ---
+
+try {
+  const data = extractAstData('./source_tests/source3.ts');
+
+  const jsonOutput = JSON.stringify(data, null, 2);
+  fs.writeFileSync('output_ast.json', jsonOutput);
+  console.log('✅ Done - output_ast.json');
+
+  const mermaidOutput = generateMermaidChart(data);
+
+  fs.writeFileSync('output_diagram.mmd', mermaidOutput);
+  console.log('✅ Done - output_diagram.mmd');
+} catch (error) {
+  console.error(error);
+}

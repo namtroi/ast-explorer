@@ -1,0 +1,18 @@
+graph TD;
+  BaseService[Class: BaseService]
+  BaseService --> BaseService_healthCheck(Method: healthCheck)
+  BaseService --> BaseService_getServiceId(Method: getServiceId)
+  ConsoleLogger[Class: ConsoleLogger]
+  ConsoleLogger --> ConsoleLogger_log(Method: log)
+  ConsoleLogger --> ConsoleLogger_error(Method: error)
+  InventoryService[Class: InventoryService]
+  InventoryService --> InventoryService_healthCheck(Method: healthCheck)
+  InventoryService --> InventoryService_checkStock(Method: checkStock)
+  InventoryService --> InventoryService_updateStock(Method: updateStock)
+  PaymentService[Class: PaymentService]
+  PaymentService --> PaymentService_healthCheck(Method: healthCheck)
+  PaymentService --> PaymentService_processTransaction(Method: processTransaction)
+  PaymentService --> PaymentService_validateCurrency(Method: validateCurrency)
+  OrderController[Class: OrderController]
+  OrderController --> OrderController_createOrder(Method: createOrder)
+  OrderController --> OrderController_getControllerVersion(Method: getControllerVersion)
