@@ -5,7 +5,7 @@ import { Project } from 'ts-morph';
 const project = new Project();
 
 // 2. Add the source file to memory for processing
-const sourceFile = project.addSourceFileAtPath('./source.ts');
+const sourceFile = project.addSourceFileAtPath('./source_tests/source.ts');
 
 // 3. Test: Print the file path to ensure it loaded correctly
 console.log('Successfully loaded file:', sourceFile.getFilePath());
